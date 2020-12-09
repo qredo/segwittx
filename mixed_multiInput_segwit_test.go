@@ -61,11 +61,9 @@ func Test_Single_P2PKH_input(t *testing.T) {
 	entireTXHash := sha256.Sum256(tx)
 	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
 
-	assert.Equal(t, "02d0abfd03dfb181477853d6d09e9a3b52309d6ea6eb09b90ace569ad2915fe2", entireTXHashHex, "Invalid final TX")
+	assert.Equal(t, "08f64f293b98d75ee652bf3659d56c89dfbd01fb6979d5c357662059a98cc859", entireTXHashHex, "Invalid final TX")
 
 }
-
-
 
 func Test_Single_Segwit_input(t *testing.T) {
 	fmt.Println("Single Segwit")
@@ -139,6 +137,8 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 		pubKey, _ := hex.DecodeString(i.pubkey)
 		pubKeyHash := btcutil.Hash160(pubKey)
 		p2wkhAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash, chain)
+
+
 		if err != nil {
 			return  nil,err
 		}
@@ -147,11 +147,14 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 
 		//parsedScript, err := parseScript(subScript)
 		//witness hashes
-		hash, err := txscript.CalcWitnessSigHash(witnessProgram, sigHashes, hashType, unsignedTX, i.index, i.utxoAmount)
-
-		//p2pkh hashes
-		script, _ := hex.DecodeString(i.utxoScript)
-		hash, err = txscript.CalcSignatureHash(script, hashType, unsignedTX, ind)
+		scriptBytes, err := hex.DecodeString(i.utxoScript)
+		var hash []byte
+		if txscript.IsPayToScriptHash(scriptBytes) {
+			hash, err = txscript.CalcWitnessSigHash(witnessProgram, sigHashes, hashType, unsignedTX, i.index, i.utxoAmount)
+		}else {
+			script, _ := hex.DecodeString(i.utxoScript)
+			hash, err = txscript.CalcSignatureHash(script, hashType, unsignedTX, ind)
+		}
 
 
 		hashres = append(hashres, hash)
@@ -192,25 +195,29 @@ func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx)
 		} else {
 			pkData = pk.SerializeUncompressed()
 		}
-		witness := wire.TxWitness{sig, pkData}
-		//finalize Transaction
-		//make sigScript  - (again )
-		pubKeyHash := btcutil.Hash160(pubKeyBytes)
-		fmt.Println("pubKeyHash ", hex.EncodeToString(pubKeyHash))
-		p2wkhAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash, chain)
-		assert.Nil(t, err, "Error", err)
-		witnessProgram, err := txscript.PayToAddrScript(p2wkhAddr)
-		//assert.Equal(t, "00149e4c67807ad8186fc57b2b94222ff7374ca3c224", hex.EncodeToString(witnessProgram), "Invalid witness program")
-		bldr := txscript.NewScriptBuilder()
-		bldr.AddData(witnessProgram)
-		sigScript, err := bldr.Script()
-		unsignedTX.TxIn[ind].Witness = witness
-		unsignedTX.TxIn[ind].SignatureScript = sigScript
 
-		//sigScript, _ := txscript.NewScriptBuilder().AddData(sig).AddData(pkData).Script()
-		//unsignedTX.TxIn[ind].SignatureScript = sigScript
+		scriptBytes, err := hex.DecodeString(i.utxoScript)
+		if txscript.IsPayToScriptHash(scriptBytes) {
+			witness := wire.TxWitness{sig, pkData}
+			//finalize Transaction
+			//make sigScript  - (again )
+			pubKeyHash := btcutil.Hash160(pubKeyBytes)
+			fmt.Println("pubKeyHash ", hex.EncodeToString(pubKeyHash))
+			p2wkhAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash, chain)
+			assert.Nil(t, err, "Error", err)
+			witnessProgram, err := txscript.PayToAddrScript(p2wkhAddr)
+			//assert.Equal(t, "00149e4c67807ad8186fc57b2b94222ff7374ca3c224", hex.EncodeToString(witnessProgram), "Invalid witness program")
+			bldr := txscript.NewScriptBuilder()
+			bldr.AddData(witnessProgram)
+			sigScript, err := bldr.Script()
+
+			unsignedTX.TxIn[ind].Witness = witness
+			unsignedTX.TxIn[ind].SignatureScript = sigScript
+		}else{
+			sigScript, _ := txscript.NewScriptBuilder().AddData(sig).AddData(pkData).Script()
+			unsignedTX.TxIn[ind].SignatureScript = sigScript
+		}
 	}
-
 	//final check
 	buf := new(bytes.Buffer)
 	_ = unsignedTX.Serialize(buf)
