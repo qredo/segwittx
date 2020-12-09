@@ -8,6 +8,7 @@ import (
 	"github.com/btcsuite/btcutil"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"fmt"
 )
 
 func Test_TestNet(t *testing.T,){
@@ -22,6 +23,43 @@ func Test_TestNet(t *testing.T,){
 	expectedBech32					:="tb1qnexx0qr6mqvxl3tm9w2zytlhxax28s3ywsqy7h"
 	Generate_Address(t,expectedPrivateKey,expectedBTC_Compressed,expectedWIF,expectedWIF_Compressed,expectedSegwit, expectedBech32 , &chaincfg.TestNet3Params )
 }
+
+func Test_Quick_Generate(t *testing.T,) {
+	privateKey 				:="3B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734091"
+	chain := &chaincfg.TestNet3Params
+
+	privKeyBytes,_ := hex.DecodeString(privateKey)
+	privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(),privKeyBytes)
+
+	//Check WIF
+	btcwifCompress, _ := btcutil.NewWIF(privKey,chain, true)
+
+	//Check p2pkh - (Standard BTC Address)
+	serializedPubKey := btcwifCompress.SerializePubKey()
+	addressPubKey, _ := btcutil.NewAddressPubKey(serializedPubKey, chain)
+	fmt.Println("p2pkhAddress := "+ addressPubKey.EncodeAddress())
+
+	//Check p2wkh - (Segwit bech32)
+	witnessProg := btcutil.Hash160(serializedPubKey)
+	addressWitnessPubKeyHash, _ := btcutil.NewAddressWitnessPubKeyHash(witnessProg,chain)
+	fmt.Println("expectedBech32 := "+ addressWitnessPubKeyHash.EncodeAddress())
+
+	//Check Segwit Nested - backwards compatible Segwit Address
+	serializedScript, _ := txscript.PayToAddrScript(addressWitnessPubKeyHash)
+	addressScriptHash, _ := btcutil.NewAddressScriptHash(serializedScript, chain)
+	fmt.Println("segwitNested := "+addressScriptHash.EncodeAddress())
+
+	//Check NestedWitnessPubKey - "BIP049 nested P2WKH", this is what btcsuite uses
+	pubKeyHash := btcutil.Hash160(pubKey.SerializeCompressed())
+	witAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash,chain)
+	assert.Nil(t, err ,"Error is nil")
+	witnessProgram, err := txscript.PayToAddrScript(witAddr)
+	address, err := btcutil.NewAddressScriptHash(witnessProgram,chain)
+	fmt.Println("NestedWitnessPubKey := "+address.EncodeAddress())
+
+
+}
+
 
 
 
@@ -73,7 +111,6 @@ func Generate_Address(t *testing.T,expectedPrivateKey, expectedBTC_Compressed, e
 	assert.Equal(t,expectedSegwit,segwitNested,"Invalid segwit address")
 
 	//Check NestedWitnessPubKey - "BIP049 nested P2WKH", this is what btcsuite uses
-
 	pubKeyHash := btcutil.Hash160(pubKey.SerializeCompressed())
 	witAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash,chain)
 	assert.Nil(t, err ,"Error is nil")
@@ -84,3 +121,6 @@ func Generate_Address(t *testing.T,expectedPrivateKey, expectedBTC_Compressed, e
 
 
 }
+
+
+

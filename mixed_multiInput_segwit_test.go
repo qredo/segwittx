@@ -35,6 +35,97 @@ type input struct {
 }
 
 
+
+
+func Test_Multiple_P2PKH_input(t *testing.T) {
+	fmt.Println("Single P2Pkh")
+	var utxos []input
+
+	in1 := input{
+		//address 	n4C7JDv8fTJSd5ix7jAfDrczsNng3fri9L
+		wif:		"cURGtCeQL56gnmMxPxZm1Nonrmt2uLCeQpJj8NVw9PJWZ26E5Xnj",
+		utxoScript: "76a914f8ba8148969d4226c9934f1eb2b80e290792969688ac",
+		txHash:     "c6f337fd27130814ee3962a881bff63c17bbb5af791cd85bb4e0cf14d1b04978",
+		pubkey:     "023C4B335C4900223BE4550FB32453FB1E45EE0D04E796E1037CE24042B4519BB8",
+		utxoAmount: int64(5555),
+		index:      0,
+	}
+
+	in2 := input{
+		//address 	mq2ncLM2VX6EUbaVQAvqdnqr5ZenwpMVor
+		wif:		"cP2RX2N2TFkFCPAJjtMaU7hKjetMvpag2vDEczHd6kTzuLA7HVmn",
+		utxoScript: "76a914685d86c3d34b411f1193b21210543d1c86c366f988ac",
+		txHash:     "d11b198a5cdf7abde9e22d0e69879d4c243dab7d10bce17048868879846f36cb",
+		pubkey:     "02B6F7482F4BD62575EC29F0FF50D43139276B8A4711E021C1021CECADF0BCBEEB",
+		utxoAmount: int64(6666),
+		index:      0,
+	}
+
+	utxos = append(utxos, in1)//Qredochain
+	utxos = append(utxos, in2)//Qredochain
+
+
+	unsignedTX, hashes := Part1(t,utxos)
+
+	//Watcher
+	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	assert.Nil(t, err,"Error should be nil")
+
+
+	fmt.Println("Transaction: ",hex.EncodeToString(tx))
+	entireTXHash := sha256.Sum256(tx)
+	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
+
+	assert.Equal(t, "19b14ce4b125dd391224a1871dbecc9d62caa73393c4dca47551cebabbd9373f", entireTXHashHex, "Invalid final TX")
+
+}
+
+
+func Test_Multiple_Segwit_input(t *testing.T) {
+	fmt.Println("Multiple Segwit")
+	var utxos []input
+
+	//Multi
+	in1 := input{
+		//address 	2MukAGw8VL5yU8ns9GxRGeFRpztGTXhtKrW 2B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734091
+		wif:		"cP2RX2N2TFkFCPAJjtMaU7hKjetMvpag2vDEczHd6kTzuLA7HVmn",
+		utxoScript: "a9141b69370e55fdecbfadaf394e29b1d118efff8ab087",
+		txHash:     "c86a113cd2443e5ef521392a855fe5debdaaf774105881b6bc66a3c967262811",
+		pubkey:     "02B6F7482F4BD62575EC29F0FF50D43139276B8A4711E021C1021CECADF0BCBEEB",
+		utxoAmount: int64(2222),
+		index:      0,
+	}
+	in2 := input{
+		//address 	2NAHjPKRP1Cmxbqfm5V2PYzfhfaRZgne4H7 (3B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734091)
+		wif:		"cPZXRr5CxtZ4pYHc2PdWTNpv8JiDRDrA3WSNLtgdSex77EChPVHk",
+		utxoScript: "a914baf3827eee4855a8cef6d1640c9326ffe9058df087",
+		txHash:     "388b1520c40063ae29c9252b1bcdc3edd8d5402fdb150a26cb189dd95bd1018c",
+		pubkey:     "03844BDB6D1CE87937513918BB54F00AA6B392AC781C73AF020C506DB237A1321A",
+		utxoAmount: int64(3333),
+		index:      0,
+	}
+	utxos = append(utxos, in1)
+	utxos = append(utxos, in2)
+
+	//Qredochain
+	unsignedTX, hashes := Part1(t,utxos)
+
+	//Watcher
+	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	assert.Nil(t, err,"Error should be nil")
+
+
+	fmt.Println("Transaction: ",hex.EncodeToString(tx))
+	entireTXHash := sha256.Sum256(tx)
+	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
+
+	assert.Equal(t, "5be492c3cda8e8f3f8ca57f2341817ae9509bcd52a6f92ecd76213dbb8b9b367", entireTXHashHex, "Invalid final TX")
+
+
+}
+
+
+
 func Test_Single_P2PKH_input(t *testing.T) {
 	fmt.Println("Single P2Pkh")
 	var utxos []input
@@ -150,7 +241,7 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 		scriptBytes, err := hex.DecodeString(i.utxoScript)
 		var hash []byte
 		if txscript.IsPayToScriptHash(scriptBytes) {
-			hash, err = txscript.CalcWitnessSigHash(witnessProgram, sigHashes, hashType, unsignedTX, i.index, i.utxoAmount)
+			hash, err = txscript.CalcWitnessSigHash(witnessProgram, sigHashes, hashType, unsignedTX, ind, i.utxoAmount)
 		}else {
 			script, _ := hex.DecodeString(i.utxoScript)
 			hash, err = txscript.CalcSignatureHash(script, hashType, unsignedTX, ind)
