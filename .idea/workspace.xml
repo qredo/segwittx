@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="76a4d113-9a91-4acf-93d8-51367317f91f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/address_generation_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/address_generation_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +33,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1607509678" />
+                    <option name="lastUsedInstant" value="1607511242" />
                   </RecentBranch>
                 </list>
               </option>
@@ -60,25 +61,35 @@
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Go Test.Test_Single_P2PKH_input in mixed_multiInput_segwit_test.go">
-    <configuration name="Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.Test_Mixed_P2PKH_input in mixed_multiInput_segwit_test.go">
+    <configuration name="Test_Mixed_P2PKH_input in mixed_multiInput_segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="segwittx" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" />
-      <pattern value="^\QTest_Mixed_multi_input\E$" />
+      <pattern value="^\QTest_Mixed_P2PKH_input\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_Segwit_External_Signing in segwit_manualsign_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_Multiple_Segwit_input in mixed_multiInput_segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="segwittx" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/segwit_manualsign_test.go" />
-      <pattern value="^\QTest_Segwit_External_Signing\E$" />
+      <filePath value="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" />
+      <pattern value="^\QTest_Multiple_Segwit_input\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_Quick_Generate in address_generation_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="segwittx" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/address_generation_test.go" />
+      <pattern value="^\QTest_Quick_Generate\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_Single_P2PKH_input in mixed_multiInput_segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -99,16 +110,6 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" />
       <pattern value="^\QTest_Single_Segwit_input\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_TestNet in address_generation_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="segwittx" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/address_generation_test.go" />
-      <pattern value="^\QTest_TestNet\E$" />
       <method v="2" />
     </configuration>
     <configuration name="go test segwittx" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
@@ -133,19 +134,19 @@
     </configuration>
     <list>
       <item itemvalue="Go Test.go test segwittx" />
-      <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_manualsign_test.go" />
-      <item itemvalue="Go Test.Test_TestNet in address_generation_test.go" />
-      <item itemvalue="Go Test.Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" />
       <item itemvalue="Go Test.Test_Single_Segwit_input in mixed_multiInput_segwit_test.go" />
       <item itemvalue="Go Test.Test_Single_P2PKH_input in mixed_multiInput_segwit_test.go" />
+      <item itemvalue="Go Test.Test_Quick_Generate in address_generation_test.go" />
+      <item itemvalue="Go Test.Test_Multiple_Segwit_input in mixed_multiInput_segwit_test.go" />
+      <item itemvalue="Go Test.Test_Mixed_P2PKH_input in mixed_multiInput_segwit_test.go" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.Test_Single_P2PKH_input in mixed_multiInput_segwit_test.go" />
+        <item itemvalue="Go Test.Test_Mixed_P2PKH_input in mixed_multiInput_segwit_test.go" />
+        <item itemvalue="Go Test.Test_Quick_Generate in address_generation_test.go" />
+        <item itemvalue="Go Test.Test_Multiple_Segwit_input in mixed_multiInput_segwit_test.go" />
         <item itemvalue="Go Test.Test_Single_Segwit_input in mixed_multiInput_segwit_test.go" />
-        <item itemvalue="Go Test.Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" />
-        <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_manualsign_test.go" />
-        <item itemvalue="Go Test.Test_TestNet in address_generation_test.go" />
+        <item itemvalue="Go Test.Test_Single_P2PKH_input in mixed_multiInput_segwit_test.go" />
       </list>
     </recent_temporary>
   </component>
@@ -158,8 +159,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mixed_multiInput_segwit_test.go</url>
-          <line>96</line>
+          <line>239</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/address_generation_test.go</url>
+          <line>58</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/address_generation_test.go</url>
+          <line>26</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

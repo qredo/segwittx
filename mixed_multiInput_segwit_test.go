@@ -35,6 +35,58 @@ type input struct {
 }
 
 
+func Test_Mixed_P2PKH_input(t *testing.T) {
+	fmt.Println("Mixed P2Pkh & Segwit")
+	var utxos []input
+
+	in1 := input{
+		//address	2MxAAByddsP9VCGJcH28NMmkXz8xvSHKWhU
+		wif:		"cPZXRr5CxtZ4pYHc2PdWTNpv8JiDRDrA3WSNLtgdSex77j1BDpjK",
+		utxoScript: "a91435e360dcfe59bccdef3e91440e4083f1db03fef387",
+		txHash:     "ff43f54e3d4bee9ca53c9212a37855a6cb08178f86ee9799acdd419269bf6ba9",
+		pubkey:     "0253165B25EB3244E3905204E216BC5A0AF811C5A83141F4A4E258BC0302FE14D3",
+		utxoAmount: int64(3232),
+		index:      0,
+	}
+
+	in2 := input{
+		//address	2MuerDacuzMeF4tJKvuY2exBpFmqaQkEQ8F
+		wif:		"cPZXRr5CxtZ4pYHc2PdWTNpv8JiDRDrA3WSNLtgdSex7AiKafqTD",
+		utxoScript: "a9141a680fb43832475b3072b7e0275bde1782b8dc5587",
+		txHash:     "14dfab12129e23d2b7e6353aa3655704e85f97a3fad22519b7bc15cc0ad1317e",
+		pubkey:     "023DA5062547B8A4D842FCA46733197B478DFBD3AF953862C12639B532B58D882D",
+		utxoAmount: int64(2223),
+		index:      0,
+	}
+
+	in3 := input{
+		//address	mgVfzijYGVdff5pL2ZcNoEiUbyqm6RWWL2 1B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734098
+		wif:		"cNVKcCeqwcwRaE31TP5eUrZjM14WSRKC2Kz6u5tckqytkvSF7t6G",
+		utxoScript: "76a9140aba1aae4a6b9e200a437af11780ab49d424cb5d88ac",
+		txHash:     "4b76457b766a4fbd3728663e59f0ee4a18b914350b213f4eaab65ef12559f71f",
+		pubkey:     "03CA0956C0D64C45FD7B2BE2E40993ACE5A5E0F79CCAA3F2156E1289D365CB0106",
+		utxoAmount: int64(1111),
+		index:      0,
+	}
+
+	utxos = append(utxos, in1)//Qredochain
+	utxos = append(utxos, in2)//Qredochain
+	utxos = append(utxos, in3)//Qredochain
+
+
+	unsignedTX, hashes := Part1(t,utxos)
+
+	//Watcher
+	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	assert.Nil(t, err,"Error should be nil")
+
+
+	fmt.Println("Transaction: ",hex.EncodeToString(tx))
+	entireTXHash := sha256.Sum256(tx)
+	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
+
+	assert.Equal(t, "a0ac2cf1d193873d11afbe8e7bad270b97d5bd96b8298e3c6a82cc1b55bcd16c", entireTXHashHex, "Invalid final TX")
+}
 
 
 func Test_Multiple_P2PKH_input(t *testing.T) {

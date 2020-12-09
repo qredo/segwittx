@@ -25,7 +25,7 @@ func Test_TestNet(t *testing.T,){
 }
 
 func Test_Quick_Generate(t *testing.T,) {
-	privateKey 				:="3B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734091"
+	privateKey 				:="3B11D8B8FB5E137A45844FF3E13EF3D6F0D03DE21C7150703AD43506B6734098"
 	chain := &chaincfg.TestNet3Params
 
 	privKeyBytes,_ := hex.DecodeString(privateKey)
