@@ -19,6 +19,11 @@ import (
 // txscript.WitnessSignature - the following test splits these operations into
 // 1) Returns the hashes which will be used by the Qredoserver and put into the PBSettlementTransaction  / PBSettlementTransactionInput
 // 2) These hashes are then signed by the MPCs in a separate process.
+// Tests should produced transactions that have already been broadcast to the network, tested by comparing the sha hashes of transactions that
+// already exist in the chain with the generated tx
+
+
+
 
 //Multi-input transactions
 //Mixed input transactions
