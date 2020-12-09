@@ -24,29 +24,37 @@ import (
 //Mixed input transactions
 //Isolate required fields
 
+
+
+
+
+
 func Test_Mixed_multi_input(t *testing.T) {
 	fmt.Println("MULTI")
-	in1 := input{
-		//address 	muwxb2YFzKTSSf1KZ6SC3DdEhBPLq3u1ij (cU2MCwHfJycARdk9MznxGsA4pxo7ZFBFQNfKyTcEB6XsM7U1nJnU)
-		wif:		"cU2MCwHfJycARdk9MznxGsA4pxo7ZFBFQNfKyTcEB6XsM7U1nJnU",
-		utxoScript: "76a9149e4c67807ad8186fc57b2b94222ff7374ca3c22488ac",
-		txHash:     "4b1bb5078a71cde153bc81877f37aade23d2b5ff5d8974973c5188088b2392d3",
-		pubkey:     "03F67329B01296D327883CE20D354E634B96C4A597B40E95B7852612ADFF946177",
-		utxoAmount: int64(4444),
-		index:      0,
-	}
+	var utxos []input
+
+	//in1 := input{
+	//	//address 	muwxb2YFzKTSSf1KZ6SC3DdEhBPLq3u1ij (cU2MCwHfJycARdk9MznxGsA4pxo7ZFBFQNfKyTcEB6XsM7U1nJnU)
+	//	wif:		"cU2MCwHfJycARdk9MznxGsA4pxo7ZFBFQNfKyTcEB6XsM7U1nJnU",
+	//	utxoScript: "76a9149e4c67807ad8186fc57b2b94222ff7374ca3c22488ac",
+	//	txHash:     "4b1bb5078a71cde153bc81877f37aade23d2b5ff5d8974973c5188088b2392d3",
+	//	pubkey:     "03F67329B01296D327883CE20D354E634B96C4A597B40E95B7852612ADFF946177",
+	//	utxoAmount: int64(4444),
+	//	index:      0,
+	//}
+	//utxos = append(utxos, in1)
 
 
 	//Multi
-	//in1 := input{
-	//	//address 	2N4LyCq2xZnEfP5qm7GgvsqSosUMBBTq1GS (933a8EfDJfescwYXSbqvkvWF1SnLcQ9fcChrcSy1ii8SufbEzwj)
-	//	wif:		"933a8EfDJfescwYXSbqvkvWF1SnLcQ9fcChrcSy1ii8SufbEzwj",
-	//	utxoScript: "a91479bf89e019333a0a7caf926c2c69a656f4a0c67587",
-	//	txHash:     "a14fe7a29f6e3077bc98fbf67963aa82b6544ac706c670033c4aef06f42256fe",
-	//	pubkey:     "03F67329B01296D327883CE20D354E634B96C4A597B40E95B7852612ADFF946177",
-	//	utxoAmount: int64(8000),
-	//	index:      0,
-	//}
+	in1 := input{
+		//address 	2N4LyCq2xZnEfP5qm7GgvsqSosUMBBTq1GS (933a8EfDJfescwYXSbqvkvWF1SnLcQ9fcChrcSy1ii8SufbEzwj)
+		wif:		"933a8EfDJfescwYXSbqvkvWF1SnLcQ9fcChrcSy1ii8SufbEzwj",
+		utxoScript: "a91479bf89e019333a0a7caf926c2c69a656f4a0c67587",
+		txHash:     "a14fe7a29f6e3077bc98fbf67963aa82b6544ac706c670033c4aef06f42256fe",
+		pubkey:     "03F67329B01296D327883CE20D354E634B96C4A597B40E95B7852612ADFF946177",
+		utxoAmount: int64(8000),
+		index:      0,
+	}
 
 	//in2 := input{
 	//	//address 	2N4LyCq2xZnEfP5qm7GgvsqSosUMBBTq1GS (933a8EfDJfescwYXSbqvkvWF1SnLcQ9fcChrcSy1ii8SufbEzwj)
@@ -57,10 +65,9 @@ func Test_Mixed_multi_input(t *testing.T) {
 	//	utxoAmount: int64(6000),
 	//	index:      0,
 	//}
-
-	var utxos []input
 	utxos = append(utxos, in1)
 	//utxos = append(utxos, in2)
+
 	//Qredochain
 	unsignedTX, hashes := Part1(t,utxos)
 
@@ -123,10 +130,13 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 		fmt.Println("WitnessProgram " + hex.EncodeToString(witnessProgram))
 
 		//parsedScript, err := parseScript(subScript)
+		//witness hashes
 		hash, err := txscript.CalcWitnessSigHash(witnessProgram, sigHashes, hashType, unsignedTX, i.index, i.utxoAmount)
 
-		script, _ := hex.DecodeString(i.utxoScript)
-		hash, err = txscript.CalcSignatureHash(script, hashType, unsignedTX, ind)
+		//p2pkh hashes
+		//script, _ := hex.DecodeString(i.utxoScript)
+		//hash, err = txscript.CalcSignatureHash(script, hashType, unsignedTX, ind)
+
 
 		hashres = append(hashres, hash)
 		fmt.Println("HASH:" + hex.EncodeToString(hash))
@@ -138,7 +148,7 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx) {
 	//setup
 
-	//chain := &chaincfg.TestNet3Params
+	chain := &chaincfg.TestNet3Params
 	compress := true
 
 
@@ -166,26 +176,26 @@ func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx)
 		} else {
 			pkData = pk.SerializeUncompressed()
 		}
-		//witness := wire.TxWitness{sig, pkData}
-		////finalize Transaction
-		////make sigScript  - (again )
-		//pubKeyHash := btcutil.Hash160(pubKeyBytes)
-		//fmt.Println("pubKeyHash ", hex.EncodeToString(pubKeyHash))
-		//p2wkhAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash, chain)
-		//assert.Nil(t, err, "Error", err)
-		//witnessProgram, err := txscript.PayToAddrScript(p2wkhAddr)
-		////assert.Equal(t, "00149e4c67807ad8186fc57b2b94222ff7374ca3c224", hex.EncodeToString(witnessProgram), "Invalid witness program")
-		//bldr := txscript.NewScriptBuilder()
-		//bldr.AddData(witnessProgram)
-		//sigScript, err := bldr.Script()
-		//unsignedTX.TxIn[ind].Witness = witness
-		//unsignedTX.TxIn[ind].SignatureScript = sigScript
-
-
-
-
-		sigScript, _ := txscript.NewScriptBuilder().AddData(sig).AddData(pkData).Script()
+		witness := wire.TxWitness{sig, pkData}
+		//finalize Transaction
+		//make sigScript  - (again )
+		pubKeyHash := btcutil.Hash160(pubKeyBytes)
+		fmt.Println("pubKeyHash ", hex.EncodeToString(pubKeyHash))
+		p2wkhAddr, err := btcutil.NewAddressWitnessPubKeyHash(pubKeyHash, chain)
+		assert.Nil(t, err, "Error", err)
+		witnessProgram, err := txscript.PayToAddrScript(p2wkhAddr)
+		//assert.Equal(t, "00149e4c67807ad8186fc57b2b94222ff7374ca3c224", hex.EncodeToString(witnessProgram), "Invalid witness program")
+		bldr := txscript.NewScriptBuilder()
+		bldr.AddData(witnessProgram)
+		sigScript, err := bldr.Script()
+		unsignedTX.TxIn[ind].Witness = witness
 		unsignedTX.TxIn[ind].SignatureScript = sigScript
+
+
+
+
+		//sigScript, _ := txscript.NewScriptBuilder().AddData(sig).AddData(pkData).Script()
+		//unsignedTX.TxIn[ind].SignatureScript = sigScript
 
 
 

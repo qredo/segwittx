@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a4d113-9a91-4acf-93d8-51367317f91f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/segwit_manualsign_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/segwit_manualsign_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,12 +115,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mixed_multiInput_segwit_test.go</url>
-          <line>180</line>
+          <line>190</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mixed_multiInput_segwit_test.go</url>
-          <line>130</line>
+          <line>140</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
