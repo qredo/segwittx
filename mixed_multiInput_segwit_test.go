@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"github.com/btcsuite/btcd/btcec"
@@ -23,11 +22,15 @@ import (
 // already exist in the chain with the generated tx
 
 
+/*
+	TODO:
+	Issue segwit address from watcher
+	Qredochain - build TX & Hash as determined by the source script type
+	Watcher - sign hases, insert witness/script data & broadcast
 
 
-//Multi-input transactions
-//Mixed input transactions
-//Isolate required fields
+ */
+
 
 
 type input struct {
@@ -38,7 +41,6 @@ type input struct {
 	utxoAmount int64
 	index int
 }
-
 
 func Test_Mixed_P2PKH_input(t *testing.T) {
 	fmt.Println("Mixed P2Pkh & Segwit")
@@ -73,26 +75,16 @@ func Test_Mixed_P2PKH_input(t *testing.T) {
 		utxoAmount: int64(1111),
 		index:      0,
 	}
-
-	utxos = append(utxos, in1)//Qredochain
-	utxos = append(utxos, in2)//Qredochain
-	utxos = append(utxos, in3)//Qredochain
-
+	utxos = append(utxos, in1)
+	utxos = append(utxos, in2)
+	utxos = append(utxos, in3)
 
 	unsignedTX, hashes := Part1(t,utxos)
-
 	//Watcher
-	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	err := Part2(t, utxos, hashes, unsignedTX)
 	assert.Nil(t, err,"Error should be nil")
-
-
-	fmt.Println("Transaction: ",hex.EncodeToString(tx))
-	entireTXHash := sha256.Sum256(tx)
-	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
-
-	assert.Equal(t, "a0ac2cf1d193873d11afbe8e7bad270b97d5bd96b8298e3c6a82cc1b55bcd16c", entireTXHashHex, "Invalid final TX")
+    CheckTXID(t, unsignedTX, "60edf0738719567bb698d5de2d3ca71acb015163335a52c31f1c4e33b31f2b1b")
 }
-
 
 func Test_Multiple_P2PKH_input(t *testing.T) {
 	fmt.Println("Single P2Pkh")
@@ -125,18 +117,11 @@ func Test_Multiple_P2PKH_input(t *testing.T) {
 	unsignedTX, hashes := Part1(t,utxos)
 
 	//Watcher
-	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	err := Part2(t, utxos, hashes, unsignedTX)
 	assert.Nil(t, err,"Error should be nil")
-
-
-	fmt.Println("Transaction: ",hex.EncodeToString(tx))
-	entireTXHash := sha256.Sum256(tx)
-	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
-
-	assert.Equal(t, "19b14ce4b125dd391224a1871dbecc9d62caa73393c4dca47551cebabbd9373f", entireTXHashHex, "Invalid final TX")
+	CheckTXID(t, unsignedTX, "85c086da490aec5770c9d9fab407717c7f20636cdd5e620d5ce2ff3ddb29d38b")
 
 }
-
 
 func Test_Multiple_Segwit_input(t *testing.T) {
 	fmt.Println("Multiple Segwit")
@@ -168,20 +153,11 @@ func Test_Multiple_Segwit_input(t *testing.T) {
 	unsignedTX, hashes := Part1(t,utxos)
 
 	//Watcher
-	tx, err := Part2(t, utxos, hashes, unsignedTX)
+
+	err := Part2(t, utxos, hashes, unsignedTX)
 	assert.Nil(t, err,"Error should be nil")
-
-
-	fmt.Println("Transaction: ",hex.EncodeToString(tx))
-	entireTXHash := sha256.Sum256(tx)
-	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
-
-	assert.Equal(t, "5be492c3cda8e8f3f8ca57f2341817ae9509bcd52a6f92ecd76213dbb8b9b367", entireTXHashHex, "Invalid final TX")
-
-
+	CheckTXID(t, unsignedTX, "c77eba6f7c817b5058383adbec0eba26980c3765f8adf2dceea99cd32d202061")
 }
-
-
 
 func Test_Single_P2PKH_input(t *testing.T) {
 	fmt.Println("Single P2Pkh")
@@ -201,15 +177,9 @@ func Test_Single_P2PKH_input(t *testing.T) {
 	unsignedTX, hashes := Part1(t,utxos)
 
 	//Watcher
-	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	err := Part2(t, utxos, hashes, unsignedTX)
 	assert.Nil(t, err,"Error should be nil")
-
-
-	fmt.Println("Transaction: ",hex.EncodeToString(tx))
-	entireTXHash := sha256.Sum256(tx)
-	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
-
-	assert.Equal(t, "08f64f293b98d75ee652bf3659d56c89dfbd01fb6979d5c357662059a98cc859", entireTXHashHex, "Invalid final TX")
+	CheckTXID(t, unsignedTX, "759820bb559cd0023523835374e7b692cc712b9bdc1473bc85d44db6fa6d7569")
 
 }
 
@@ -234,19 +204,12 @@ func Test_Single_Segwit_input(t *testing.T) {
 	unsignedTX, hashes := Part1(t,utxos)
 
 	//Watcher
-	tx, err := Part2(t, utxos, hashes, unsignedTX)
+	err := Part2(t, utxos, hashes, unsignedTX)
 	assert.Nil(t, err,"Error should be nil")
-
-
-	fmt.Println("Transaction: ",hex.EncodeToString(tx))
-	entireTXHash := sha256.Sum256(tx)
-	entireTXHashHex := hex.EncodeToString(entireTXHash[:])
-
-	assert.Equal(t, "02d0abfd03dfb181477853d6d09e9a3b52309d6ea6eb09b90ace569ad2915fe2", entireTXHashHex, "Invalid final TX")
+	CheckTXID(t, unsignedTX, "cbac922dc53edb4188d8c051fcb385d13e558ca23ab3c06216f4293abb3a66ca")
 
 
 }
-
 
 //QredoChainWalletProcessing contains everything performed by a Qredo Node, before signing (especially hash generation)
 func Part1(t *testing.T, utxos []input) (unsignedTX *wire.MsgTx,hashes [][]uint8) {
@@ -273,7 +236,6 @@ func Part1(t *testing.T, utxos []input) (unsignedTX *wire.MsgTx,hashes [][]uint8
 	assert.Nil(t, err, "Error", err)
 	return  unsignedTX, hashes
 }
-
 
 func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.SigHashType, chain *chaincfg.Params) ([][]uint8,  error) {
 	sigHashes := txscript.NewTxSigHashes(unsignedTX)
@@ -312,7 +274,7 @@ func HashBuildMulti(unsignedTX *wire.MsgTx, utxos []input,  hashType txscript.Si
 }
 
 //WatcherProcessing signing the transaction hashes produced by QredoChainWalletProcessing, and assembling the final transaction for broadcast.
-func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx) ([]byte, error){
+func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx) (error){
 	//setup
 
 	chain := &chaincfg.TestNet3Params
@@ -369,9 +331,8 @@ func Part2(t *testing.T, utxos []input,hashes [][]uint8, unsignedTX *wire.MsgTx)
 	//final check
 	buf := new(bytes.Buffer)
 	_ = unsignedTX.Serialize(buf)
-	return buf.Bytes(), nil
+	return  nil
 }
-
 
 func UnsignedBuildTXMulti(destination string, sendAmount int64, utxos []input, chain *chaincfg.Params) (*wire.MsgTx, error) {
 	//Outgoing TX Address
@@ -396,3 +357,15 @@ func UnsignedBuildTXMulti(destination string, sendAmount int64, utxos []input, c
 	return outgoingTx, nil
 
 }
+
+func CheckTXID(t *testing.T, unsignedTX *wire.MsgTx, expectedTXID string) {
+	//We need to strip out the winess data hashing twice to calculate the on chain TXID
+	for i,_ := range  unsignedTX.TxIn {
+		unsignedTX.TxIn[i].Witness=nil
+	}
+	buf := bytes.NewBuffer(make([]byte, 0, unsignedTX.SerializeSize()))
+	_ = unsignedTX.Serialize(buf)
+	txid := chainhash.DoubleHashH(buf.Bytes())
+	assert.Equal(t, expectedTXID,txid.String())
+}
+
