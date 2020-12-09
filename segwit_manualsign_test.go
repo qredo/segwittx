@@ -25,6 +25,22 @@ import (
 //Isolate required fields
 
 
+func Test_Segwit_External_Signing(t *testing.T) {
+	fmt.Println("EXTERNAL")
+
+	//Qredochain
+	hash, unsignedTX := QredoChainWalletProcessing(t)
+
+	//Watcher
+	WatcherProcessing(t, hash, unsignedTX)
+
+}
+
+
+
+
+
+
 //QredoChainWalletProcessing contains everything performed by a Qredo Node, before signing (especially hash generation)
 func QredoChainWalletProcessing(t *testing.T) (hash []byte, unsignedTX *wire.MsgTx) {
 	//UTXO
@@ -69,7 +85,12 @@ func WatcherProcessing(t *testing.T, hash []byte,unsignedTX *wire.MsgTx ) {
 
 	//Usually MPCs will sign, but for testing we use a private key
 	privKey := wif.PrivKey
+
+	fmt.Println("Priv ", hex.EncodeToString(privKey.Serialize()))
+	fmt.Println("Hash ", hex.EncodeToString(hash))
+
 	signature, err := privKey.Sign(hash)
+	fmt.Println("sig ", hex.EncodeToString(signature.Serialize()))
 	sig := append(signature.Serialize(), byte(hashType))
 	pubKeyBytes, _ := hex.DecodeString(pubkey)
 	pk, err := btcec.ParsePubKey(pubKeyBytes, btcec.S256())
@@ -106,16 +127,7 @@ func WatcherProcessing(t *testing.T, hash []byte,unsignedTX *wire.MsgTx ) {
 
 	assert.Equal(t, "46efa28e9ba27e89514de5a5ae8b7072955bbe9e240906d4727f333d5b4ba152", entireTXHashHex, "Invalid final TX")
 }
-func Test_Segwit_External_Signing(t *testing.T) {
-	fmt.Println("EXTERNAL")
 
-	//Qredochain
-	hash, unsignedTX := QredoChainWalletProcessing(t)
-
-	//Watcher
-	WatcherProcessing(t, hash, unsignedTX)
-
-}
 
 func HashBuild(unsignedTX *wire.MsgTx, inputIndex int, sendAmount int64, hashType txscript.SigHashType, pubKey []byte, chain *chaincfg.Params) ([]byte, error) {
 	sigHashes := txscript.NewTxSigHashes(unsignedTX)

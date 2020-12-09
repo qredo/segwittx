@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0eba3cf0-7acd-489b-a97a-cf18fb0db2ae" name="Default Changelist" comment="">
+    <list default="true" id="76a4d113-9a91-4acf-93d8-51367317f91f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/segwit_manualsign_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/segwit_manualsign_test.go" afterDir="false" />
     </list>
@@ -23,31 +24,8 @@
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="2" />
-    <option name="recentBranches">
-      <RecentBranches>
-        <option name="branchesForRepo">
-          <list>
-            <RecentBranchesForRepo>
-              <option name="branches">
-                <list>
-                  <RecentBranch>
-                    <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1607089818" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1607089817" />
-                  </RecentBranch>
-                </list>
-              </option>
-              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
-            </RecentBranchesForRepo>
-          </list>
-        </option>
-      </RecentBranches>
-    </option>
   </component>
-  <component name="ProjectId" id="1lC4LTWmpg9wuxzABOIgp9tdMb1" />
+  <component name="ProjectId" id="1lNj33DThK8VHBXJkqliOx4SvzW" />
   <component name="ProjectViewState">
     <option name="autoscrollToSource" value="true" />
     <option name="foldersAlwaysOnTop" value="false" />
@@ -61,28 +39,18 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Go Test.Test_Segwit_External_Signing in segwit_manualsign_test.go">
-    <configuration name="Test_Mainnet in address_generation_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.Test_Mixed_multi_input in mixed_multiInput_segwit_test.go">
+    <configuration name="Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="segwittx" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/address_generation_test.go" />
-      <pattern value="^\QTest_Mainnet\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_Segwit in segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="segwittx" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/segwit_test.go" />
-      <pattern value="^\QTest_Segwit\E$" />
+      <filePath value="$PROJECT_DIR$/mixed_multiInput_segwit_test.go" />
+      <pattern value="^\QTest_Mixed_multi_input\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_Segwit_External_Signing in segwit_manualsign_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -92,16 +60,6 @@
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/segwit_manualsign_test.go" />
-      <pattern value="^\QTest_Segwit_External_Signing\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_Segwit_External_Signing in segwit_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="segwittx" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/segwit_test.go" />
       <pattern value="^\QTest_Segwit_External_Signing\E$" />
       <method v="2" />
     </configuration>
@@ -137,18 +95,14 @@
     </configuration>
     <list>
       <item itemvalue="Go Test.go test segwittx" />
-      <item itemvalue="Go Test.Test_Segwit in segwit_test.go" />
-      <item itemvalue="Go Test.Test_TestNet in address_generation_test.go" />
-      <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_test.go" />
       <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_manualsign_test.go" />
-      <item itemvalue="Go Test.Test_Mainnet in address_generation_test.go" />
+      <item itemvalue="Go Test.Test_TestNet in address_generation_test.go" />
+      <item itemvalue="Go Test.Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.Test_Mixed_multi_input in mixed_multiInput_segwit_test.go" />
         <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_manualsign_test.go" />
-        <item itemvalue="Go Test.Test_Segwit in segwit_test.go" />
-        <item itemvalue="Go Test.Test_Segwit_External_Signing in segwit_test.go" />
-        <item itemvalue="Go Test.Test_Mainnet in address_generation_test.go" />
         <item itemvalue="Go Test.Test_TestNet in address_generation_test.go" />
       </list>
     </recent_temporary>
@@ -161,14 +115,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../go/src/github.com/btcsuite/btcd/txscript/sign.go</url>
-          <line>31</line>
-          <option name="timeStamp" value="13" />
+          <url>file://$PROJECT_DIR$/mixed_multiInput_segwit_test.go</url>
+          <line>180</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../go/src/github.com/btcsuite/btcd/txscript/sign.go</url>
-          <line>25</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/mixed_multiInput_segwit_test.go</url>
+          <line>130</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
